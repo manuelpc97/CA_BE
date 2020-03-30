@@ -6,6 +6,7 @@ var logger = require('morgan');
 var mongoose = require('mongoose');
 var dotenv = require('dotenv');
 var bodyParser = require('body-parser');
+var cors = require('cors');
 
 //Routes
 var userRouter = require('./routes/user');
@@ -16,6 +17,8 @@ var app = express();
 //Setting body parser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(cors());
 
 //Getting environment variables
 dotenv.config();
