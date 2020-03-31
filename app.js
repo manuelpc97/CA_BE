@@ -11,6 +11,9 @@ var cors = require('cors');
 //Routes
 var userRouter = require('./routes/user');
 var insuranceRouter = require('./routes/insurance');
+var businessRouter = require('./routes/business');
+var productRouter = require('./routes/product');
+var coverRouter = require('./routes/cover');
 
 var app = express();
 
@@ -45,6 +48,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Using routes
 app.use('/user', userRouter);
 app.use('/insurance', insuranceRouter);
+app.use('/business', businessRouter);
+app.use('/product', productRouter);
+app.use('/cover', coverRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
