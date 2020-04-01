@@ -12,3 +12,14 @@ exports.createProduct = (request, response) => {
     product.save();
     response.sendStatus(200);
 }
+
+exports.getProductByBusiness = (request, response) => {
+    var business = request.params.business;
+    productModel.find({business}, (error, products) => {
+        if(error){
+            response.sendStatus(500);
+        }else{
+            response.send(products);
+        }
+    });
+}

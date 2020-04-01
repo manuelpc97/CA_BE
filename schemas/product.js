@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var product = mongoose.Schema({
-    rate: {type: String, require: true}, 
+    rate: {type: String}, 
     business: {type: String, require: true}, 
     cover: [String], 
     insurance: {type: String, require: true}, 

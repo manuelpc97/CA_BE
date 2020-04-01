@@ -11,3 +11,13 @@ exports.createBusiness = (request, response) => {
     business.save();
     response.sendStatus(200);
 }
+
+exports.getAllBusinesses = (request, response) => {
+    businessModel.find({}, (error, businesses) => {
+        if(error){
+            response.sendStatus(500);
+        }else{
+            response.send(businesses);
+        }
+    });
+}
