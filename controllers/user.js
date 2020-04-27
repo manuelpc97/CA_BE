@@ -1,10 +1,15 @@
+var crypto = require('crypto');
 var user = require('../schemas/user');
 
 exports.createUser = async (request, response) => {
     try{
+        var cipher = crypto.createCipher('aes128', 'password');
+        var encrypted = cipher.update(request.body.password, 'utf8', 'hex');
+        encrypted += cipher.final('hex');
+
         var newUser = new user({
             username : request.body.username, 
-            password: request.body.password,
+            password: encrypted,
             firstName: request.body.firstName,
             lastName: request.body.lastName,
             email: request.body.email, 
@@ -25,7 +30,10 @@ exports.logIn = async (request, response) => {
         
         if(users.length !== 0){
             var filteredUser = users[0];
-            if(filteredUser && filteredUser.password === request.body.password){
+            var cipher = crypto.createCipher('aes128', 'password');
+            var encrypted = cipher.update(request.body.password, 'utf8', 'hex');
+            encrypted += cipher.final('hex');
+            if(filteredUser && filteredUser.password === encrypted){
                 response.status(200).json(filteredUser);
             }else{
                 response.status(401).send('User not found');
