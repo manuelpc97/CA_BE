@@ -21,7 +21,6 @@ exports.logIn = (request, response) => {
             response.sendStatus(500);
         }else{
             if(filteredUser[0] && filteredUser[0].password === request.body.password){
-                console.log('TE ESTOY MANDANDO ESTO WEY: ', filteredUser[0]);
                 response.json(filteredUser[0]);
             }else{
                 response.sendStatus(401);
