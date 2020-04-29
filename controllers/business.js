@@ -26,12 +26,11 @@ exports.createBusiness = async (request, response) => {
     }
 }
 
-exports.getAllBusinesses = (request, response) => {
-    businessModel.find({}, (error, businesses) => {
-        if (error) {
-            response.sendStatus(500);
-        } else {
-            response.send(businesses);
-        }
-    });
+exports.getAllBusinesses = async (request, response) => {
+    try {
+        const business = await businessModel.find({});
+        response.status(200).send(business);
+    } catch (error) {
+        response.send(`There was an error to get business ${error}`);
+    }
 }

@@ -1,14 +1,13 @@
 const insurance = require('../schemas/insurance');
 const validateInsurance = require('../helpers/validations/insurance');
 
-exports.getInsurances = (request, response) => {
-    insurance.find({}, (error, insurances) => {
-        if (error) {
-            response.sendStatus(500);
-        } else {
-            response.send(insurances);
-        }
-    });
+exports.getInsurances = async (request, response) => {
+    try {
+        const insurances = await insurance.find({});
+        response.status(200).send(insurances);
+    } catch (error) {
+        response.send(`There was an error to get insurancces ${error}`);
+    }
 }
 
 exports.createInsurance = async (request, response) => {

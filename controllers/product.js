@@ -34,13 +34,12 @@ exports.createProduct = async (request, response) => {
     }
 }
 
-exports.getProductByBusiness = (request, response) => {
-    var business = request.params.business;
-    productModel.find({ business }, (error, products) => {
-        if (error) {
-            response.sendStatus(500);
-        } else {
-            response.send(products);
-        }
-    });
+exports.getProductByBusiness = async (request, response) => {
+    try {
+        const { business } = request.params;
+        const  businessResponse = await productModel.find({ business });
+        response.status(200).send(businessResponse);
+    } catch (error) {
+        response.send(`There was an error to get products by business: ${error}`)
+    }
 }
