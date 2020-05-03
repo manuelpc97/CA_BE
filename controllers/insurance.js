@@ -1,24 +1,28 @@
-var insurance = require('../schemas/insurance');
+const insurance = require('../schemas/insurance');
+const validateInsurance = require('../helpers/validations/insurance');
 
-exports.getInsurances = (request, response) => {
-    insurance.find({}, (error, insurances) => {
-        if(error){
-            response.sendStatus(500);
-        }else{
-            response.send(insurances);
-        }
-    });
+exports.getInsurances = async (request, response) => {
+    try {
+        const insurances = await insurance.find({});
+        response.status(200).send(insurances);
+    } catch (error) {
+        response.send(`There was an error to get insurancces ${error}`);
+    }
 }
 
-exports.createInsurance = (request, response) => {
-    try{
-        var newInsurance = new insurance({
-            name: request.body.name,
-            image: request.body.image
-        });
-        newInsurance.save();
-        response.sendStatus(200);
-    }catch(e){
-        response.sendStatus(500);
+exports.createInsurance = async (request, response) => {
+    const insuranceObject = request.body;
+    const { isValid, errors } = validateInsurance(insuranceObject);
+    try {
+        if (!isValid) {
+            return response.status(400).send(errors);
+        }
+
+        const { name, image } = request.body;
+        const newInsurance = new insurance({ name, image });
+        await newInsurance.save();
+        return response.status(200).send(`Cover ${name} was created`);
+    } catch (error) {
+        return response.status(500).send(`There was an error to create an insurance: ${error}`)
     }
 }
