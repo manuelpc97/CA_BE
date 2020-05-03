@@ -1,30 +1,47 @@
+var crypto = require('crypto');
 var user = require('../schemas/user');
 
-exports.createUser = (request, response) => {
-    var newUser = new user({
-        username : request.body.username, 
-        password: request.body.password,
-        firstName: request.body.firstName,
-        lastName: request.body.lastName,
-        email: request.body.email, 
-        id: request.body.id, 
-        phone: request.body.phone
-    });
-    
-    newUser.save();
-    response.sendStatus(200);
+exports.createUser = async (request, response) => {
+    try{
+        var cipher = crypto.createCipher('aes128', 'password');
+        var encrypted = cipher.update(request.body.password, 'utf8', 'hex');
+        encrypted += cipher.final('hex');
+
+        var newUser = new user({
+            username : request.body.username, 
+            password: encrypted,
+            firstName: request.body.firstName,
+            lastName: request.body.lastName,
+            email: request.body.email, 
+            id: request.body.id, 
+            phone: request.body.phone
+        });
+        
+        await newUser.save();
+        response.sendStatus(200);
+    }catch(exception){
+        response.status(500).send(exception);
+    }
 }
 
-exports.logIn = (request, response) => {
-    user.find({username: request.body.username}, (error, filteredUser) => {
-        if(error){
-            response.sendStatus(500);
-        }else{
-            if(filteredUser[0] && filteredUser[0].password === request.body.password){
-                response.json(filteredUser[0]);
+exports.logIn = async (request, response) => {
+    try{
+        var users = await user.find({username: request.body.username});
+        
+        if(users.length !== 0){
+            var filteredUser = users[0];
+            var cipher = crypto.createCipher('aes128', 'password');
+            var encrypted = cipher.update(request.body.password, 'utf8', 'hex');
+            encrypted += cipher.final('hex');
+            if(filteredUser && filteredUser.password === encrypted){
+                response.status(200).json(filteredUser);
             }else{
-                response.sendStatus(401);
+                response.status(401).send('User not found');
             }
+        }else{
+            response.status(401).send("User not found");;
         }
-    })
+    }catch(exception){
+        response.status(500).send(exception);
+    }
 }
