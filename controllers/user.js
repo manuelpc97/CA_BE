@@ -18,7 +18,7 @@ exports.createUser = async (request, response) => {
         });
         
         await newUser.save();
-        response.sendStatus(200);
+        response.status(200).send({message: 'SUCCESS CREATING USER'});
     }catch(exception){
         response.status(500).send(exception);
     }
