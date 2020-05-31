@@ -6,7 +6,6 @@ exports.createUser = async (request, response) => {
         var cipher = crypto.createCipher('aes128', 'password');
         var encrypted = cipher.update(request.body.password, 'utf8', 'hex');
         encrypted += cipher.final('hex');
-
         var newUser = new user({
             username : request.body.username, 
             password: encrypted,
@@ -27,7 +26,6 @@ exports.createUser = async (request, response) => {
 exports.logIn = async (request, response) => {
     try{
         var users = await user.find({username: request.body.username});
-        
         if(users.length !== 0){
             var filteredUser = users[0];
             var cipher = crypto.createCipher('aes128', 'password');
@@ -36,12 +34,12 @@ exports.logIn = async (request, response) => {
             if(filteredUser && filteredUser.password === encrypted){
                 response.status(200).json(filteredUser);
             }else{
-                response.status(401).send('User not found');
+                response.status(401).send({message: 'User not found'});
             }
         }else{
-            response.status(401).send("User not found");;
+            response.status(401).send({message: 'User not found'});;
         }
     }catch(exception){
-        response.status(500).send(exception);
+        response.status(500).send({message: 'User not found'});
     }
 }
