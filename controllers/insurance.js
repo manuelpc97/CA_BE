@@ -18,8 +18,8 @@ exports.createInsurance = async (request, response) => {
             return response.status(400).send(errors);
         }
 
-        const { name, image } = request.body;
-        const newInsurance = new insurance({ name, image });
+        const { name, type } = request.body;
+        const newInsurance = new insurance({ name, type });
         await newInsurance.save();
         return response.status(200).send(`Cover ${name} was created`);
     } catch (error) {

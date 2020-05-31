@@ -34,6 +34,15 @@ exports.createProduct = async (request, response) => {
     }
 }
 
+exports.getAllProducts = async (request, response) => {
+    try {
+        const product = await productModel.find({});
+        response.status(200).send(product);
+    } catch (error) {
+        response.send(`There was an error to get business ${error}`);
+    }
+}
+
 exports.getProductByBusiness = async (request, response) => {
     try {
         const { business } = request.params;
@@ -41,5 +50,15 @@ exports.getProductByBusiness = async (request, response) => {
         response.status(200).send(businessResponse);
     } catch (error) {
         response.send(`There was an error to get products by business: ${error}`)
+    }
+}
+
+exports.getProductByInsurance = async (request, response) => {
+    try {
+        const { insurance } = request.params;
+        const  businessResponse = await productModel.find({ insurance });
+        response.status(200).send(businessResponse);
+    } catch (error) {
+        response.send(`There was an error to get products by insurance: ${error}`)
     }
 }

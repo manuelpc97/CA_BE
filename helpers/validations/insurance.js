@@ -1,7 +1,7 @@
 const { isEmpty } = require('lodash');
 
 module.exports = (insuranceObject) => {
-    const { name, image } = insuranceObject;
+    const { name, type } = insuranceObject;
     let errors = [];
 
     if (isEmpty(name)) {
@@ -11,7 +11,7 @@ module.exports = (insuranceObject) => {
         });
     }
 
-    if (isEmpty(image)) {
+    if (isEmpty(type)) {
         errors.push({
             message: 'Image field is required',
             code: 400
