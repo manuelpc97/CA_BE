@@ -38,3 +38,12 @@ exports.getCoverByProduct = (request, response) => {
         }
     })
 }
+
+exports.getAllCovers = async (request, response) => {
+    try {
+        const covers = await coverModel.find({});
+        response.status(200).send(covers);
+    } catch (error) {
+        response.send(`There was an error to get business ${error}`);
+    }
+}
