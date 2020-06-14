@@ -14,6 +14,7 @@ var insuranceRouter = require('./routes/insurance');
 var businessRouter = require('./routes/business');
 var productRouter = require('./routes/product');
 var coverRouter = require('./routes/cover');
+var formRouter = require('./routes/form');
 
 var app = express();
 
@@ -51,6 +52,7 @@ app.use('/insurance', insuranceRouter);
 app.use('/business', businessRouter);
 app.use('/product', productRouter);
 app.use('/cover', coverRouter);
+app.use('/form', formRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
