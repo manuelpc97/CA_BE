@@ -5,7 +5,8 @@ var product = mongoose.Schema({
     business: {type: String, require: true}, 
     cover: [String], 
     insurance: {type: String, require: true}, 
-    yearPayment: {type: String, require: true}
+    yearPayment: {type: String, require: true},
+    form : {type: String}
 });
 
 module.exports = mongoose.model('Product', product);
