@@ -12,14 +12,16 @@ exports.getFormById = async (request, response) => {
 }
 
 exports.saveFilledForm = async (req, res) => {
-    const { filledForm, userId, productId, timestamp } = req.body;
+    const { filledForm, userId, timestamp } = req.body;
+    const tag = req.body.productId ? 'productId' : 'insuranceId';
+    const value = {
+        filledForm,
+        userId,
+        timestamp
+    }
+    value[tag] = req.body[tag];
     try {
-        const newFilledForm = new FilledForm({
-            filledForm,
-            userId,
-            productId,
-            timestamp
-        });
+        const newFilledForm = new FilledForm(value);
         await newFilledForm.save();
         res.status(200).send({message: `Filled form was saved`});
     } catch (error) {
