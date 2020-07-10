@@ -29,9 +29,9 @@ app.use(cors());
 dotenv.config();
 
 //Database setup
-var mongoDB = 'mongodb://' + process.env.DB_USER + ':' + process.env.DB_PASSWORD 
-              + '@ds263028.mlab.com:63028/' + process.env.DB_NAME;
-mongoose.connect(mongoDB, {useNewUrlParser: true,useUnifiedTopology: true});
+var mongoDB = 'mongodb://' + process.env.DB_USER + ':' + process.env.DB_PASSWORD
+  + '@ds263028.mlab.com:63028/' + process.env.DB_NAME;
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 var connection = mongoose.connection;
 connection.on('error', () => console.log('EROR CONNECTING DATABASE'));
@@ -57,12 +57,12 @@ app.use('/form', formRouter);
 app.use('/email', emailRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res) {
+app.use(function (err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
