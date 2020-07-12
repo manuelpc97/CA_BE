@@ -1,7 +1,7 @@
 const nodeMailer = require('nodemailer');
 
 exports.sendEmail = (form, tag) => {
-    if(tag !== 'insuranceId') return;
+    if(tag !== 'productIdId') return;
     const auth = {
         user: process.env.EMAIL,
         pass: process.env.EMAIL_PASSWORD
