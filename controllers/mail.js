@@ -2,15 +2,17 @@ const nodeMailer = require('nodemailer');
 
 exports.sendEmail = (form, tag) => {
     if(tag !== 'insuranceId') return;
+    const auth = {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD
+    };
+    console.log('MANUEL THIS IS MY AUTH: ', auth);
     let transporter = nodeMailer.createTransport({
         service: 'Gmail',//smtp.gmail.com  //in place of service use host...
         secure: false,//true
         port: 25,//465
         ignoreTLS: true,
-        auth: {
-            user: process.env.EMAIL,
-            pass: process.env.EMAIL_PASSWORD
-        }
+        auth 
     });
     let div = prepareForm(form);
     let mailOptions = {
