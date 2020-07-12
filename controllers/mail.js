@@ -35,7 +35,7 @@ exports.sendEmail = (form, tag) => {
 const prepareForm = (form) => {
     const intermediateForm = form.split('\'').join('"');
     const json = JSON.parse(intermediateForm);
-    let div = '<div><h1>' + json.formName +  '</h1><br><br>'
+    let div = '<div><h1>' + json.formName +  '</h1><br>'
     json.completedQuestions.forEach(question => {
         div += getQuestions(question);
         if(question.completedSubquestions){
@@ -50,7 +50,7 @@ const prepareForm = (form) => {
 
 const getQuestions = (question) => {
     if(!question.question) return '';
-    const questionTag = '<h4>' +question.question+ '</h4><br>';
+    const questionTag = '<h4>' +question.question+ '</h4>';
     let answerTag = '<p>';
     answerTag += question.answer? question.answer: (question.checked? (question.checked === true? 'Si' : 'No') : 'No');
     answerTag += '</p>';
