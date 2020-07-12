@@ -1,5 +1,4 @@
 const nodeMailer = require('nodemailer');
-require('dotenv').config();
 
 exports.sendEmail = (form, tag) => {
     if(tag !== 'insuranceId') return;
@@ -7,7 +6,6 @@ exports.sendEmail = (form, tag) => {
         user: process.env.EMAIL,
         pass: process.env.EMAIL_PASSWORD
     };
-    console.log('MANUEL THIS IS MY AUTH: ', auth);
     let transporter = nodeMailer.createTransport({
         service: 'Gmail',//smtp.gmail.com  //in place of service use host...
         secure: false,//true
