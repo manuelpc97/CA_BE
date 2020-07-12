@@ -1,4 +1,5 @@
 const nodeMailer = require('nodemailer');
+require('dotenv').config();
 
 exports.sendEmail = (form, tag) => {
     if(tag !== 'insuranceId') return;
