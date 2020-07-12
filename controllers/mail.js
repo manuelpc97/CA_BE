@@ -1,13 +1,13 @@
 const nodeMailer = require('nodemailer');
 
 exports.sendEmail = (form, tag) => {
-    if(tag !== 'insuranceId') return;
+    if(tag !== 'productId') return;
     const auth = {
         user: process.env.EMAIL,
         pass: process.env.EMAIL_PASSWORD
     };
     let transporter = nodeMailer.createTransport({
-        service: 'smtp.gmail.com',//smtp.gmail.com  //in place of service use host...
+        service: 'Gmail',//smtp.gmail.com  //in place of service use host...
         secure: false,//true
         port: 25,//465
         ignoreTLS: true,
