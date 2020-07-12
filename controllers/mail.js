@@ -4,12 +4,12 @@ exports.sendEmail = (form, tag) => {
     if(tag !== 'insuranceId') return;
     let transporter = nodeMailer.createTransport({
         service: 'Gmail',//smtp.gmail.com  //in place of service use host...
-        secure: true,//true
+        secure: false,//true
         port: 25,//465
         ignoreTLS: true,
         auth: {
-            user: 'mcanelo41@gmail.com',
-            pass: 'Warrior97_'
+            user: process.env.EMAIL,
+            pass: process.env.EMAIL_PASSWORD
         }
     });
     let div = prepareForm(form);
