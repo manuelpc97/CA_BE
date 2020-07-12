@@ -1,18 +1,28 @@
 const nodeMailer = require('nodemailer');
 
 exports.sendEmail = (form, tag) => {
-    if(tag !== 'productId') return;
+    if(tag !== 'insuranceId') return;
     const auth = {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASSWORD
+        type: 'OAuth2',
+        user: process.env.EMAIL
     };
     let transporter = nodeMailer.createTransport({
-        service: 'Gmail',//smtp.gmail.com  //in place of service use host...
+        service: 'smtp.gmail.com',//smtp.gmail.com  //in place of service use host...
         secure: false,//true
         port: 25,//465
         ignoreTLS: true,
         auth 
     });
+
+    transporter.set('oauth2_provision_cb', (user, renew, callback)=>{
+        let accessToken = userTokens[user];
+        if(!accessToken){
+            return callback(new Error('Unknown user'));
+        }else{
+            return callback(null, accessToken);
+        }
+    });
+    
     let div = prepareForm(form);
     let mailOptions = {
         from: 'mcanelo41@gmail.com',
