@@ -3,6 +3,7 @@ const FilledForm = require('../schemas/filledForms');
 const productModel = require('../schemas/product');
 const businessModel = require('../schemas/business');
 const insuranceModel = require('../schemas/insurance');
+const {sendEmail} = require('./mail');
 const moment = require('moment-timezone');
 
 exports.getFormById = async (request, response) => {
@@ -27,6 +28,7 @@ exports.saveFilledForm = async (req, res) => {
     try {
         const newFilledForm = new FilledForm(value);
         await newFilledForm.save();
+        sendEmail(filledForm, tag);
         res.status(200).send({ message: `Filled form was saved` });
     } catch (error) {
         res.status(500).send(`There was an error to save filled form ${error}`)
